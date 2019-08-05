@@ -5,11 +5,8 @@ import FetchUsers from './FetchUsers'
 
 const App = (props) => (
   <div>
-    
     <Counter />
-
     <FetchUsers />
-
   </div>
 )
 
