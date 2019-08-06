@@ -1,6 +1,6 @@
 import React from 'react'
 
-import mapObjectToArray from './mapObjectToArray'
+import {getMessages} from './messagesService'
 
 class Messages extends React.Component {
   state = {
@@ -21,17 +21,12 @@ class Messages extends React.Component {
     ]
   }
 
-  componentDidMount(){
-    fetch('https://olninio.firebaseio.com/messages/.json')
-      .then(r => r.json())
-      .then(messagesInObj => 
-        {const dataInArray = mapObjectToArray(messagesInObj)
-
-          this.setState({
-            messages: dataInArray
-          })
-        })
-
+  componentDidMount() {
+    getMessages()
+    .then(messages => this.setState({
+      messages: messages
+    }))
+      
   }
   onMessageToSendChanged = (event) => {
     this.setState({
@@ -45,7 +40,7 @@ class Messages extends React.Component {
       key: Date.now()
     }
     this.setState({
-      messages: this.state.messages.concat({newMessage})
+      messages: this.state.messages.concat({ newMessage })
     })
   }
 
@@ -77,7 +72,7 @@ class Messages extends React.Component {
                 </div>
               )
             )
-        }
+          }
         </div>
       </div>
     )
