@@ -3,7 +3,20 @@ import React from 'react'
 class Messages extends React.Component {
   state = {
     messageToSend: '',
-    messages: []
+    messages: [
+      {
+        text: 'Hello 1',
+        key: 'xxx'
+      },
+      {
+        text: 'Hello 2',
+        key: 'yyy'
+      },
+      {
+        text: 'Hello 3',
+        key: 'zzz'
+      },
+    ]
   }
 
   onMessageToSendChanged = (event) => {
@@ -11,20 +24,49 @@ class Messages extends React.Component {
       messageToSend: event.target.value
     })
   }
-  render () {
-    return(
+
+  onMessageSend = () => {
+    const newMessage = {
+      text: this.state.messageToSend,
+      key: Date.now()
+    }
+    this.setState({
+      messages: this.state.messages.concat({newMessage})
+    })
+  }
+
+
+  render() {
+    return (
       <div>
-        <input
-          value = {this.state.messageToSend}
-          onChange = {}
-        />
-        <button
-          onClick = {() => console.log(this.state.messageToSend)}
-        >
-          SEND 
-        </button>
+
+        <div>
+          <input
+            value={this.state.messageToSend}
+            onChange={() => console.log('click')}
+          />
+          <button
+            onClick={() => console.log(this.state.messageToSend)}
+          >
+            SEND
+          </button>
+        </div>
+
+        <div>
+          {
+            this.state.messages.map(
+              message => (
+                <div
+                  key={message.key}
+                >
+                  {message.text}
+                </div>
+              )
+            )
+        }
+        </div>
       </div>
-      )
+    )
   }
 }
 
