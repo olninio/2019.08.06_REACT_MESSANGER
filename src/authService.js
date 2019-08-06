@@ -1,0 +1,2 @@
+const SIGN_UP_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBPsmFvE6zGn46Lk_Z3143D0ajsO41W_ak'
+const SIGN_IN_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBPsmFvE6zGn46Lk_Z3143D0ajsO41W_ak'

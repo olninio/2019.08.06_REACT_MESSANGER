@@ -1,32 +1,22 @@
 import React from 'react'
 
-import {getMessages} from './messagesService'
+import {getMessages, addMessage, deleteMessage} from './messagesService'
 
 class Messages extends React.Component {
   state = {
     messageToSend: '',
-    messages: [
-      {
-        text: 'Hello 1',
-        key: 'xxx'
-      },
-      {
-        text: 'Hello 2',
-        key: 'yyy'
-      },
-      {
-        text: 'Hello 3',
-        key: 'zzz'
-      },
-    ]
+    messages: []
   }
 
   componentDidMount() {
+    this.loadMessages() 
+  }
+
+  loadMessages = () => {
     getMessages()
-    .then(messages => this.setState({
-      messages: messages
-    }))
-      
+      .then(messages => this.setState({
+        messages: messages
+      }))
   }
   onMessageToSendChanged = (event) => {
     this.setState({
@@ -37,11 +27,15 @@ class Messages extends React.Component {
   onMessageSend = () => {
     const newMessage = {
       text: this.state.messageToSend,
-      key: Date.now()
+      
     }
-    this.setState({
-      messages: this.state.messages.concat({ newMessage })
-    })
+
+    addMessage(newMessage)
+      .then(() => this.loadMessages())
+  }
+
+  onMessageDelete = (messageKey) => {
+    deleteMessage(messageKey).then(() => this.loadMessages())
   }
 
 
@@ -55,7 +49,7 @@ class Messages extends React.Component {
             onChange={this.onMessageToSendChanged}
           />
           <button
-            onClick={() => console.log(this.state.messageToSend)}
+            onClick={this.onMessageSend}
           >
             SEND
           </button>
@@ -68,6 +62,12 @@ class Messages extends React.Component {
                 <div
                   key={message.key}
                 >
+                  <button
+                    onClick = {() => this.onMessageDelete(message.key)}
+                  >
+                    X
+                  </button>
+                  {' '}
                   {message.text}
                 </div>
               )
