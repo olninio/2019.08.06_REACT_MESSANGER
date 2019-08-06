@@ -43,7 +43,7 @@ class Messages extends React.Component {
         <div>
           <input
             value={this.state.messageToSend}
-            onChange={() => console.log('click')}
+            onChange={this.onMessageToSendChanged}
           />
           <button
             onClick={() => console.log(this.state.messageToSend)}
