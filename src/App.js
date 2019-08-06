@@ -1,12 +1,10 @@
 import React from 'react'
 
-import Counter from './Counter'
-import FetchUsers from './FetchUsers'
+import Messages from './Messages'
 
 const App = (props) => (
   <div>
-    <Counter />
-    <FetchUsers />
+    <Messages />
   </div>
 )
 
