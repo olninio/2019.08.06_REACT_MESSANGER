@@ -1,5 +1,7 @@
 import React from 'react'
 
+import mapObjectToArray from './mapObjectToArray'
+
 class Messages extends React.Component {
   state = {
     messageToSend: '',
@@ -19,6 +21,18 @@ class Messages extends React.Component {
     ]
   }
 
+  componentDidMount(){
+    fetch('https://olninio.firebaseio.com/messages/.json')
+      .then(r => r.json())
+      .then(messagesInObj => 
+        {const dataInArray = mapObjectToArray(messagesInObj)
+
+          this.setState({
+            messages: dataInArray
+          })
+        })
+
+  }
   onMessageToSendChanged = (event) => {
     this.setState({
       messageToSend: event.target.value
