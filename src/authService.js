@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 const SIGN_UP_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBPsmFvE6zGn46Lk_Z3143D0ajsO41W_ak'
 const SIGN_IN_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBPsmFvE6zGn46Lk_Z3143D0ajsO41W_ak'
 
-const logIn = (email, password) => {
+export const logIn = (email, password) => {
   return fetch(
     SIGN_IN_URL,
     {
@@ -19,15 +19,17 @@ const logIn = (email, password) => {
     .then(data => {
       localStorage.setItem('idToken', data.idToken) 
       localStorage.setItem('refreshToken', data.refreshToken)  /* jest coś takiego jak refreshToken który słuzy do odświeżania tokena */
+    
+      return data
     })
 }
 
-const isUserLoggedIn = () => {
+export const isUserLoggedIn = () => {
   const idToken = localStorage.getItem('idToken')
   return idToken ? true:false
 }
 
-const getLoggedInUser = () => {
+export const getLoggedInUser = () => {
   if (!isUserLoggedIn()) return null
 
   const idToken = localStorage.getItem('idToken')
@@ -35,16 +37,18 @@ const getLoggedInUser = () => {
   return jwt.decode(idToken)
 }
 
-const fetchIdToken = (url, options) => {
-  const idToken = localStorage.getItem('idTokent')
+export const fetchWithToken = (url, options) => {
+  const idToken = localStorage.getItem('idToken')
 
-  cosnt authString = idToken ? '?auth=' + idToken : ''
+  const authString = idToken ? '?auth=' + idToken : ''
+
+  return fetch(
+    url + authString,
+    options
+  )
+  // to jest funkcja ktora robi to samo co fetch, sprawdzamy czy jest w local storage idToken
 }
 
 
-window.getLoggedInUser = getLoggedInUser /* sprawdzenie czy dobrze wszystko jest napisane i czy się prawidłowo się loguje*/
 
-logIn('j.j.sawczuk@gmail.com', '123456789')
-  .then(console.log)
-  .catch(console.log)
 

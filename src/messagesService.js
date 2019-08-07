@@ -1,12 +1,13 @@
 // tworzymy ten plik ponieważ chcemy system do wysyłania wiadomości
 
+import { fetchWithToken } from './authService'
 import mapObjectToArray from './mapObjectToArray'
 
 const URL = 'https://olninio.firebaseio.com/messages'
 
 export const getMessages = () => {
 
-  return fetch(URL + '.json')
+  return fetchWithToken(URL + '.json')
     .then(r => r.json())
     .then(messagesInObj => {
       const messagesInArr = mapObjectToArray(messagesInObj)
@@ -16,7 +17,7 @@ export const getMessages = () => {
 }
 
 export const addMessage = (newMessage) => {
-  return fetch(
+  return fetchWithToken(
     (URL+'.json'),
     {
       method: 'POST',
@@ -26,7 +27,7 @@ export const addMessage = (newMessage) => {
 }
 
 export const deleteMessage = (messageKey) => {
-  return fetch(
+  return fetchWithToken(
     URL+'/'+messageKey+'.json',
     {
       method: 'DELETE'
